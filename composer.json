@@ -1,0 +1,30 @@
+{
+    "name": "braip/pkg-abstracts",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Braip\\Abstracts\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Braip\\Abstracts\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers":[
+                "Braip\\Abstracts\\AbstractsBaseServiceProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "name": "Marcus Silva",
+            "email": "marcusjapaslv@hotmail.com"
+        }
+    ],
+    "require-dev": {
+        "orchestra/testbench": "^9.0"
+    }
+}
