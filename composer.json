@@ -1,6 +1,10 @@
 {
     "name": "braip/pkg-abstracts",
     "license": "MIT",
+    "description": "Package to abstract classes",
+    "keywords": ["abstracts", "laravel"],
+    "type": "library",
+    "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
             "Braip\\Abstracts\\": "src/"
