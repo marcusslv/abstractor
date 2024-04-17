@@ -30,5 +30,10 @@
     ],
     "require-dev": {
         "orchestra/testbench": "^9.0"
+    },
+    "scripts": {
+        "rector:check": "vendor/bin/rector process --dry-run",
+        "rector:run": "vendor/bin/rector process",
+        "test": "vendor/bin/phpunit"
     }
 }

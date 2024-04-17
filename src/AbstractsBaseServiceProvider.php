@@ -2,6 +2,8 @@
 
 namespace Braip\Abstracts;
 
+use Braip\Abstracts\Commands\DomainGenerate;
+use Braip\Abstracts\Commands\GenerateAbstracts;
 use Illuminate\Support\ServiceProvider;
 
 class AbstractsBaseServiceProvider extends ServiceProvider
@@ -11,7 +13,7 @@ class AbstractsBaseServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         //
     }
@@ -21,8 +23,13 @@ class AbstractsBaseServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        //
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                DomainGenerate::class,
+                GenerateAbstracts::class
+            ]);
+        }
     }
 }

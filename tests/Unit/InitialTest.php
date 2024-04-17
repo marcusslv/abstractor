@@ -7,7 +7,7 @@ use Braip\Abstracts\Tests\User;
 
 class InitialTest extends TestCase
 {
-    public function test_trait()
+    public function test_trait(): void
     {
         //Get User fields
         $result = User::methodTest();
