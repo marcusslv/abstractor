@@ -21,7 +21,6 @@ class DomainGenerate extends Command
      */
     protected $description = 'Command description';
 
-
     public function __construct()
     {
         parent::__construct();
@@ -33,11 +32,11 @@ class DomainGenerate extends Command
 
         $domain = $this->ask('Informe o dominio');
 
-        mkdir(app_path($root . "/" . lcfirst($domain)), 0755, true);
-        mkdir(app_path($root . "/" . lcfirst($domain) . "/entities"));
-        mkdir(app_path($root . "/" . lcfirst($domain) . "/repositories"));
-        mkdir(app_path($root . "/" . lcfirst($domain) . "/services"));
-        mkdir(app_path($root . "/" . lcfirst($domain) . "/valueObjects"));
+        mkdir(app_path($root.'/'.lcfirst($domain)), 0755, true);
+        mkdir(app_path($root.'/'.lcfirst($domain).'/entities'));
+        mkdir(app_path($root.'/'.lcfirst($domain).'/repositories'));
+        mkdir(app_path($root.'/'.lcfirst($domain).'/services'));
+        mkdir(app_path($root.'/'.lcfirst($domain).'/valueObjects'));
 
         $this->entity($domain, $root);
         $this->repository($domain, $root);
@@ -49,7 +48,7 @@ class DomainGenerate extends Command
 
     private function entity($domain, $root): void
     {
-        $class = ucfirst($domain . "Entity");
+        $class = ucfirst($domain.'Entity');
 
         $model = ucfirst($domain);
 
@@ -64,10 +63,10 @@ class DomainGenerate extends Command
 
         }";
 
-        $entity = app_path($root . "/" . $domain . "/Entities" . "/" . ucfirst($domain) . "Entity.php");
+        $entity = app_path($root.'/'.$domain.'/Entities'.'/'.ucfirst($domain).'Entity.php');
 
         //Variável $fp armazena a conexão com o arquivo e o tipo de ação.
-        $fp = fopen($entity, "a+");
+        $fp = fopen($entity, 'a+');
 
         //Escreve no arquivo aberto.
         fwrite($fp, $text);
@@ -78,15 +77,15 @@ class DomainGenerate extends Command
 
     private function repository($domain, $root): void
     {
-        $var = '$' . $domain . "Repository";
+        $var = '$'.$domain.'Repository';
 
         $model = '$model';
 
         $this->model = '$this->model';
 
-        $class = ucfirst($domain . "Repository");
+        $class = ucfirst($domain.'Repository');
 
-        $entity = ucfirst($domain) . "Entity";
+        $entity = ucfirst($domain).'Entity';
 
         $text = "<?php
 
@@ -112,10 +111,10 @@ class DomainGenerate extends Command
             }
         }";
 
-        $repo = app_path($root . "/" . $domain . "/Repositories" . "/" . ucfirst($domain) . "Repository.php");
+        $repo = app_path($root.'/'.$domain.'/Repositories'.'/'.ucfirst($domain).'Repository.php');
 
         //Variável $fp armazena a conexão com o arquivo e o tipo de ação.
-        $fp = fopen($repo, "a+");
+        $fp = fopen($repo, 'a+');
 
         //Escreve no arquivo aberto.
         fwrite($fp, $text);
@@ -124,15 +123,15 @@ class DomainGenerate extends Command
         fclose($fp);
     }
 
-    private function service($domain, $root):void
+    private function service($domain, $root): void
     {
-        $var = '$' . $domain . "Service";
+        $var = '$'.$domain.'Service';
 
         $this->repository = '$this->repository';
 
-        $class = ucfirst($domain . "Service");
+        $class = ucfirst($domain.'Service');
 
-        $repository = ucfirst($domain) . "Repository";
+        $repository = ucfirst($domain).'Repository';
 
         $text = "<?php
 
@@ -154,10 +153,10 @@ class DomainGenerate extends Command
             }
         }";
 
-        $service = app_path($root . "/" . $domain . "/Services" . "/" . ucfirst($domain) . "Service.php");
+        $service = app_path($root.'/'.$domain.'/Services'.'/'.ucfirst($domain).'Service.php');
 
         //Variável $fp armazena a conexão com o arquivo e o tipo de ação.
-        $fp = fopen($service, "a+");
+        $fp = fopen($service, 'a+');
 
         //Escreve no arquivo aberto.
         fwrite($fp, $text);
@@ -169,6 +168,6 @@ class DomainGenerate extends Command
     private function runInfraStructure($domain): void
     {
         Artisan::call("make:model $domain -m -f -s");
-        Artisan::call("make:controller" . " " . $domain . "/" . $domain . "Controller");
+        Artisan::call('make:controller'.' '.$domain.'/'.$domain.'Controller');
     }
 }

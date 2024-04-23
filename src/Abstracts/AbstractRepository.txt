@@ -1,13 +1,17 @@
 <?php
 
-namespace
+namespace DUMMY_NAMESPACE;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
-use App\Interfaces\RepositoryInterface;
+use DUMMY_NAMESPACE\RepositoryInterface;
 
-abstract class AbstractRepository
+abstract class AbstractRepository implements RepositoryInterface
 {
+	/**
+	 * @var Model
+	 */
+	protected $model;
 
 	/**
 	 * @return Model
@@ -55,7 +59,7 @@ abstract class AbstractRepository
 	 */
 	public function create($params): Model
 	{
-		return $this->getModel()->forceCreate($this->formatParams($params));
+		return $this->getModel()->forceCreate($params);
 	}
 
 	/**

@@ -29,11 +29,15 @@
         }
     ],
     "require-dev": {
-        "orchestra/testbench": "^9.0"
+        "orchestra/testbench": "^9.0",
+        "laravel/pint": "dev-main"
     },
     "scripts": {
         "rector:check": "vendor/bin/rector process --dry-run",
         "rector:run": "vendor/bin/rector process",
-        "test": "vendor/bin/phpunit"
+        "test": "vendor/bin/phpunit",
+        "pint": "@php ./vendor/bin/pint --test",
+        "pint:fix": "@php ./vendor/bin/pint",
+        "pint:changes": "@php ./vendor/bin/pint --dirty"
     }
 }

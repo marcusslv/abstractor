@@ -12,7 +12,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->loadMigrationsFrom(__DIR__ . '/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/migrations');
         $this->artisan('migrate', ['--database' => 'testing'])->run();
     }
 
@@ -24,7 +24,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
     protected function getPackageProviders($app): array
     {
         return [
-            AbstractsBaseServiceProvider::class
+            AbstractsBaseServiceProvider::class,
         ];
     }
 }

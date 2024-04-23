@@ -18,7 +18,7 @@ class GenerateAbstracts extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Generate abstract classes for services, repositories, controllers and models.';
 
     /**
      * Create a new command instance.
@@ -32,126 +32,119 @@ class GenerateAbstracts extends Command
 
     public function handle(): void
     {
-        $root = $this->ask('Informe o nome do pacote');
+        $packageName = $this->askForPackageName();
 
-        $path = app_path($root . "/" . "Abstracts");
-
-        if(!file_exists($path)){
-            mkdir($path);
-        }
-
-        $this->service($root);
-        $this->repository($root);
+        $this->info("Generating abstract classes for {$packageName} package.");
+        $this->ensurePackageExists($packageName);
+        $this->ensureAbstractsDirectoryExists($packageName);
+        $this->serviceInterface($packageName);
+        $this->service($packageName);
+        $this->repositoryInterface($packageName);
+        $this->repository($packageName);
         $this->controller();
         $this->model();
         $this->baseController();
+        $this->info('Abstract classes generated successfully.');
+    }
+
+    private function askForPackageName(): string
+    {
+        return $this->ask('What is the package name?');
+    }
+
+    private function ensurePackageExists(string $packageName): void
+    {
+        if (! is_dir(app_path($packageName))) {
+            $this->createPackageIfConfirmed($packageName);
+        }
+    }
+
+    private function ensureAbstractsDirectoryExists(string $packageName): void
+    {
+        $path = app_path($packageName.'/'.'Abstracts');
+        if (! file_exists($path)) {
+            mkdir($path);
+        }
+    }
+
+    private function createPackageIfConfirmed(string $packageName): void
+    {
+        $result = $this->ask("Package {$packageName} does not exist. Do you want to create it? (y/n)");
+        if ($result === 'n') {
+            dd('No package found. Exiting.');
+        }
+
+        mkdir(app_path($packageName));
+    }
+
+    private function template(string $templateName): string
+    {
+        $templateFiles = glob(base_path("/vendor/**/**/**/**/{$templateName}.txt"));
+
+        if (empty($templateFiles)) {
+            dd("Template file {$templateName}.txt not found.");
+        }
+
+        return file_get_contents($templateFiles[0]);
+    }
+
+    private function createFileFromTemplate(
+        string $root,
+        string $templateName,
+        string $destinationPath,
+        string $destinationFileName
+    ): void {
+        $this->warn("Generating {$destinationFileName}.php...");
+        $templateContent = $this->template($templateName);
+        $namespace = 'App\\'.$root.'\\'.$destinationPath;
+        $templateContent = str_replace('DUMMY_NAMESPACE', $namespace, $templateContent);
+
+        $destinationFullPath = app_path("{$root}/{$destinationPath}/{$destinationFileName}.php");
+
+        if (file_put_contents($destinationFullPath, $templateContent) === false) {
+            dd("Failed to create {$destinationFileName}.php.");
+        }
+    }
+
+    private function serviceInterface($root): void
+    {
+        $this->createFileFromTemplate($root, 'ServiceInterface', 'Abstracts', 'ServiceInterface');
+        $this->info('Base service interface generated successfully.');
     }
 
     private function service($root): void
     {
-        $file = glob("**/**/**/AbstractService.txt");
+        $this->createFileFromTemplate($root, 'AbstractService', 'Abstracts', 'AbstractService');
+        $this->info('Base service generated successfully.');
+    }
 
-        $text = file_get_contents($file[0]);
-
-        $service = app_path($root . "/Abstracts/" . "AbstractService.php");
-
-        $fp = fopen($service, "a");
-
-        if($fp == false){
-            dd('Não foi possível criar o arquivo.');
-        }
-
-        //Escreve no arquivo aberto.
-        fwrite($fp, $text);
-
-        //Fecha o arquivo.
-        fclose($fp);
+    private function repositoryInterface($root): void
+    {
+        $this->createFileFromTemplate($root, 'RepositoryInterface', 'Abstracts', 'RepositoryInterface');
+        $this->info('Base repository interface generated successfully.');
     }
 
     private function repository($root): void
     {
-        $file = glob("**/**/**/AbstractRepository.txt");
-
-        $text = file_get_contents($file[0]);
-
-        $service = app_path($root . "/Abstracts/" . "AbstractRepository.php");
-
-        $fp = fopen($service, "a");
-
-        if($fp == false){
-            dd('Não foi possível criar o arquivo.');
-        }
-
-        //Escreve no arquivo aberto.
-        fwrite($fp, $text);
-
-        //Fecha o arquivo.
-        fclose($fp);
+        $this->createFileFromTemplate($root, 'AbstractRepository', 'Abstracts', 'AbstractRepository');
+        $this->info('Base repository generated successfully.');
     }
 
     private function controller(): void
     {
-        $file = glob("**/**/**/AbstractController.txt");
-
-        $text = file_get_contents($file[0]);
-
-        $service = app_path("Http/Controllers/" . "AbstractController.php");
-
-        $fp = fopen($service, "a");
-
-        if($fp == false){
-            dd('Não foi possível criar o arquivo.');
-        }
-
-        //Escreve no arquivo aberto.
-        fwrite($fp, $text);
-
-        //Fecha o arquivo.
-        fclose($fp);
+        $this->createFileFromTemplate('', 'AbstractController', 'Http/Controllers', 'AbstractController');
+        $this->info('Base controller generated successfully.');
     }
 
     private function model(): void
     {
-        $file = glob("**/**/**/AbstractModel.txt");
-
-        $text = file_get_contents($file[0]);
-
-        $service = app_path("Models/" . "AbstractModel.php");
-
-        $fp = fopen($service, "a");
-
-        if($fp == false){
-            dd('Não foi possível criar o arquivo.');
-        }
-
-        //Escreve no arquivo aberto.
-        fwrite($fp, $text);
-
-        //Fecha o arquivo.
-        fclose($fp);
+        $this->createFileFromTemplate('', 'AbstractModel', 'Models', 'AbstractModel');
+        $this->info('Base model generated successfully.');
     }
 
     private function baseController(): void
     {
-        $file = glob("**/**/**/Controller.txt");
-
-        $text = file_get_contents($file[0]);
-
-        $controller = app_path("Http/Controllers/" . "Controller.php");
-
-        unlink($controller);
-
-        $fp = fopen($controller, "a");
-
-        if($fp == false){
-            dd('Não foi possível criar o arquivo.');
-        }
-
-        //Escreve no arquivo aberto.
-        fwrite($fp, $text);
-
-        //Fecha o arquivo.
-        fclose($fp);
-
+        $this->createFileFromTemplate('', 'Controller', 'Http/Controllers', 'Controller');
+        $this->info('Base controller generated successfully.');
     }
 }

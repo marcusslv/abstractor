@@ -1,14 +1,16 @@
 <?php
 
-namespace
+namespace DUMMY_NAMESPACE;
 
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use DUMMY_NAMESPACE\ServiceInterface;
 
-abstract class AbstractService
+abstract class AbstractService implements ServiceInterface
 {
 	protected $with = [];
+    protected $repository;
 
 	/**
 	 * @param array $params

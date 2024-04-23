@@ -10,8 +10,6 @@ class AbstractsBaseServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
-     *
-     * @return void
      */
     public function register(): void
     {
@@ -20,15 +18,13 @@ class AbstractsBaseServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap services.
-     *
-     * @return void
      */
     public function boot(): void
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
                 DomainGenerate::class,
-                GenerateAbstracts::class
+                GenerateAbstracts::class,
             ]);
         }
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Resource\Abstracts;
+namespace DUMMY_NAMESPACE;
 
 interface ServiceInterface
 {

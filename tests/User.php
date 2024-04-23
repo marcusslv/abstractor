@@ -2,8 +2,8 @@
 
 namespace Braip\Abstracts\Tests;
 
-use Illuminate\Database\Eloquent\Model;
 use Braip\Abstracts\TraitTest;
+use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
 {
