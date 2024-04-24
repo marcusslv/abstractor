@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace DUMMY_NAMESPACE;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-abstract class AbstractModel extends Model
+abstract class AbstractEntity extends Model
 {
 	public function scopeQuery(Builder $queryBuilder, $params = [])
 	{

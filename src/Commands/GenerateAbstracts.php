@@ -41,8 +41,8 @@ class GenerateAbstracts extends Command
         $this->service($packageName);
         $this->repositoryInterface($packageName);
         $this->repository($packageName);
+        $this->entity($packageName);
         $this->controller();
-        $this->model();
         $this->baseController();
         $this->info('Abstract classes generated successfully.');
     }
@@ -136,10 +136,10 @@ class GenerateAbstracts extends Command
         $this->info('Base controller generated successfully.');
     }
 
-    private function model(): void
+    private function entity($root): void
     {
-        $this->createFileFromTemplate('', 'AbstractModel', 'Models', 'AbstractModel');
-        $this->info('Base model generated successfully.');
+        $this->createFileFromTemplate($root, 'AbstractEntity', 'Abstracts', 'AbstractEntity');
+        $this->info('Base entity generated successfully.');
     }
 
     private function baseController(): void

@@ -19,12 +19,7 @@ class DomainGenerate extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    protected $description = 'Generate domain classes.';
 
     public function handle(): void
     {
@@ -32,142 +27,120 @@ class DomainGenerate extends Command
 
         $domain = $this->ask('Informe o dominio');
 
-        mkdir(app_path($root.'/'.lcfirst($domain)), 0755, true);
-        mkdir(app_path($root.'/'.lcfirst($domain).'/entities'));
-        mkdir(app_path($root.'/'.lcfirst($domain).'/repositories'));
-        mkdir(app_path($root.'/'.lcfirst($domain).'/services'));
-        mkdir(app_path($root.'/'.lcfirst($domain).'/valueObjects'));
+        mkdir(app_path($root.'/'.ucfirst($domain)), 0755, true);
+        mkdir(app_path($root.'/'.ucfirst($domain).'/Entities'));
+        mkdir(app_path($root.'/'.ucfirst($domain).'/Repositories'));
+        mkdir(app_path($root.'/'.ucfirst($domain).'/Services'));
+        mkdir(app_path($root.'/'.ucfirst($domain).'/ValueObjects'));
 
         $this->entity($domain, $root);
         $this->repository($domain, $root);
         $this->service($domain, $root);
 
         $this->runInfraStructure($domain);
-
     }
 
     private function entity($domain, $root): void
     {
         $class = ucfirst($domain.'Entity');
+        $content = $this->getTemplate('Entity');
+        $content = str_replace(
+            [
+                'DUMMY_NAMESPACE',
+                'DUMMY_ABSTRACT_ENTITY',
+                'DUMMY_CLASS',
+            ],
+            [
+                "App\\$root\\$domain\\Entities",
+                "App\\$root\\Abstracts\AbstractEntity",
+                $class,
+            ],
+            $content
+        );
 
-        $model = ucfirst($domain);
+        $pathFile = app_path($root.'/'.$domain.'/Entities'.'/'.ucfirst($domain).'Entity.php');
 
-        $text = "<?php
-
-        namespace App\\$root\\$domain\Entities;
-
-        use App\Models\\$model;
-
-        class $class extends $model
-        {
-
-        }";
-
-        $entity = app_path($root.'/'.$domain.'/Entities'.'/'.ucfirst($domain).'Entity.php');
-
-        //Variável $fp armazena a conexão com o arquivo e o tipo de ação.
-        $fp = fopen($entity, 'a+');
-
-        //Escreve no arquivo aberto.
-        fwrite($fp, $text);
-
-        //Fecha o arquivo.
-        fclose($fp);
+        $this->createFileAndWrite($pathFile, $content);
     }
 
     private function repository($domain, $root): void
     {
-        $var = '$'.$domain.'Repository';
-
-        $model = '$model';
-
-        $this->model = '$this->model';
-
         $class = ucfirst($domain.'Repository');
-
         $entity = ucfirst($domain).'Entity';
 
-        $text = "<?php
+        $content = $this->getTemplate('Repository');
+        $content = str_replace(
+            [
+                'DUMMY_NAMESPACE',
+                'DUMMY_ENTITY',
+                'DUMMY_REPOSITORY',
+                'DUMMY_CLASS_ENTITY',
+                'DUMMY_CLASS',
+            ],
+            [
+                "App\\$root\\$domain\\Repositories",
+                "App\\$root\\$domain\\Entities\\$entity",
+                "App\\$root\\Abstracts\AbstractRepository",
+                $entity,
+                $class,
+            ],
+            $content
+        );
 
-        namespace App\\$root\\$domain\Repositories;
+        $pathFile = app_path($root.'/'.$domain.'/Repositories'.'/'.ucfirst($domain).'Repository.php');
 
-        use App\\$root\\$domain\Entity\\$entity;
-        use App\\$root\Abstracts\AbstractRepository;
+        $this->createFileAndWrite($pathFile, $content);
+    }
 
-        class $class extends AbstractRepository
-        {
-           /**
-            * @var $entity
-            */
-            protected $model;
+    private function getTemplate(string $templateName): string
+    {
+        $templateFiles = glob(base_path("/vendor/**/**/**/**/{$templateName}.txt"));
 
-            /**
-             * CompanyRepository constructor.
-             * @param $entity $model
-             */
-            public function __construct($entity $var)
-            {
-                $this->model = $var;
-            }
-        }";
+        if (empty($templateFiles)) {
+            dd("Template file {$templateName}.txt not found.");
+        }
 
-        $repo = app_path($root.'/'.$domain.'/Repositories'.'/'.ucfirst($domain).'Repository.php');
-
-        //Variável $fp armazena a conexão com o arquivo e o tipo de ação.
-        $fp = fopen($repo, 'a+');
-
-        //Escreve no arquivo aberto.
-        fwrite($fp, $text);
-
-        //Fecha o arquivo.
-        fclose($fp);
+        return file_get_contents($templateFiles[0]);
     }
 
     private function service($domain, $root): void
     {
-        $var = '$'.$domain.'Service';
+        $classNameRepository = ucfirst($domain).'Repository';
+        $content = $this->getTemplate('Service');
+        $content = str_replace(
+            [
+                'DUMMY_NAMESPACE',
+                'DUMMY_REPOSITORY',
+                'DUMMY_SERVICE',
+                'DUMMY_CLASS_REPOSITORY',
+                'DUMMY_CLASS',
+            ],
+            [
+                "App\\$root\\$domain\\Services",
+                "App\\$root\\$domain\\Repositories\\$classNameRepository",
+                "App\\$root\\Abstracts\AbstractService",
+                $classNameRepository,
+                ucfirst($domain.'Service'),
+            ],
+            $content
+        );
 
-        $this->repository = '$this->repository';
+        $pathFile = app_path($root.'/'.$domain.'/Services'.'/'.ucfirst($domain).'Service.php');
 
-        $class = ucfirst($domain.'Service');
+        $this->createFileAndWrite($pathFile, $content);
+    }
 
-        $repository = ucfirst($domain).'Repository';
-
-        $text = "<?php
-
-        namespace App\\$root\\$domain\Repositories;
-
-        use App\\$root\\$domain\Repositories\\$repository;
-        use App\\$root\Abstracts\AbstractService;
-
-        class $class extends AbstractService
-        {
-            /**
-             * @var $repository
-             */
-            protected $repository;
-
-            public function __construct($repository $var)
-            {
-                $this->repository = $var;
-            }
-        }";
-
-        $service = app_path($root.'/'.$domain.'/Services'.'/'.ucfirst($domain).'Service.php');
-
-        //Variável $fp armazena a conexão com o arquivo e o tipo de ação.
-        $fp = fopen($service, 'a+');
-
-        //Escreve no arquivo aberto.
-        fwrite($fp, $text);
-
-        //Fecha o arquivo.
-        fclose($fp);
+    private function createFileAndWrite(string $pathFile, string $content): void
+    {
+        file_put_contents($pathFile, $content);
     }
 
     private function runInfraStructure($domain): void
     {
-        Artisan::call("make:model $domain -m -f -s");
-        Artisan::call('make:controller'.' '.$domain.'/'.$domain.'Controller');
+        $classEntity = ucfirst($domain.'Entity');
+        Artisan::call('make:migration create_'.lcfirst($domain).'s_table');
+        Artisan::call('make:factory'.' '.$classEntity.'Factory');
+        Artisan::call('make:seeder'.' '.$classEntity.'Seeder');
+        Artisan::call('make:controller'.' '.ucfirst($domain).'/'.ucfirst($domain).'Controller');
     }
 }

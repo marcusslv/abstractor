@@ -1,0 +1,13 @@
+<?php
+
+namespace DUMMY_NAMESPACE;
+
+use DUMMY_REPOSITORY;
+use DUMMY_SERVICE;
+
+class DUMMY_CLASS extends AbstractService
+{
+    public function __construct(protected DUMMY_CLASS_REPOSITORY $repository)
+    {
+    }
+}

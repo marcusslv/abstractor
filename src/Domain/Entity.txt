@@ -1,0 +1,9 @@
+<?php
+
+namespace DUMMY_NAMESPACE;
+
+use DUMMY_ABSTRACT_MODEL;
+
+class DUMMY_CLASS extends AbstractEntity
+{
+}
