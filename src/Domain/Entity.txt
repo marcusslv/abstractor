@@ -2,7 +2,7 @@
 
 namespace DUMMY_NAMESPACE;
 
-use DUMMY_ABSTRACT_MODEL;
+use DUMMY_ABSTRACT_ENTITY;
 
 class DUMMY_CLASS extends AbstractEntity
 {
