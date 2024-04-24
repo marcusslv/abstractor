@@ -1,0 +1,14 @@
+<?php
+
+namespace DUMMY_NAMESPACE;
+
+use App\Http\Controllers\AbstractController;
+use DUMMY_USE_SERVICE;
+
+
+class DUMMY_CLASS extends AbstractController
+{
+    public function __construct(protected DUMMY_SERVICE $service)
+    {
+    }
+}

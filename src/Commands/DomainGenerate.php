@@ -23,25 +23,29 @@ class DomainGenerate extends Command
 
     public function handle(): void
     {
-        $root = $this->ask('Informe o nome do pacote');
+        $root = $this->ask('Info the root package name?');
 
-        $domain = $this->ask('Informe o dominio');
+        $domain = $this->ask('Info the domain name?');
 
-        mkdir(app_path($root.'/'.ucfirst($domain)), 0755, true);
-        mkdir(app_path($root.'/'.ucfirst($domain).'/Entities'));
-        mkdir(app_path($root.'/'.ucfirst($domain).'/Repositories'));
-        mkdir(app_path($root.'/'.ucfirst($domain).'/Services'));
-        mkdir(app_path($root.'/'.ucfirst($domain).'/ValueObjects'));
+        $this->warn("** Generating domain classes for {$domain} domain **");
 
+        $this->ensurePackageExists($root.'/'.ucfirst($domain).'/Repositories', 0755, true);
+        $this->ensurePackageExists($root.'/'.ucfirst($domain));
+        $this->ensurePackageExists($root.'/'.ucfirst($domain).'/Entities');
+        $this->ensurePackageExists($root.'/'.ucfirst($domain).'/Repositories');
+        $this->ensurePackageExists($root.'/'.ucfirst($domain).'/Services');
+        $this->ensurePackageExists($root.'/'.ucfirst($domain).'/ValueObjects');
         $this->entity($domain, $root);
         $this->repository($domain, $root);
         $this->service($domain, $root);
-
+        $this->controller($domain, $root);
         $this->runInfraStructure($domain);
+        $this->info('** Domain classes generated successfully. **');
     }
 
     private function entity($domain, $root): void
     {
+        $this->warn('Generating entity for '.$domain.' domain.');
         $class = ucfirst($domain.'Entity');
         $content = $this->getTemplate('Entity');
         $content = str_replace(
@@ -61,10 +65,12 @@ class DomainGenerate extends Command
         $pathFile = app_path($root.'/'.$domain.'/Entities'.'/'.ucfirst($domain).'Entity.php');
 
         $this->createFileAndWrite($pathFile, $content);
+        $this->info('Entity generated successfully.');
     }
 
     private function repository($domain, $root): void
     {
+        $this->warn('Generating repository for '.$domain.' domain.');
         $class = ucfirst($domain.'Repository');
         $entity = ucfirst($domain).'Entity';
 
@@ -90,21 +96,12 @@ class DomainGenerate extends Command
         $pathFile = app_path($root.'/'.$domain.'/Repositories'.'/'.ucfirst($domain).'Repository.php');
 
         $this->createFileAndWrite($pathFile, $content);
-    }
-
-    private function getTemplate(string $templateName): string
-    {
-        $templateFiles = glob(base_path("/vendor/**/**/**/**/{$templateName}.txt"));
-
-        if (empty($templateFiles)) {
-            dd("Template file {$templateName}.txt not found.");
-        }
-
-        return file_get_contents($templateFiles[0]);
+        $this->info('Repository generated successfully.');
     }
 
     private function service($domain, $root): void
     {
+        $this->warn('Generating service for '.$domain.' domain.');
         $classNameRepository = ucfirst($domain).'Repository';
         $content = $this->getTemplate('Service');
         $content = str_replace(
@@ -128,6 +125,56 @@ class DomainGenerate extends Command
         $pathFile = app_path($root.'/'.$domain.'/Services'.'/'.ucfirst($domain).'Service.php');
 
         $this->createFileAndWrite($pathFile, $content);
+        $this->info('Service generated successfully.');
+    }
+
+    private function controller($domain, $root): void
+    {
+        $this->warn('Generating controller for '.$domain.' domain.');
+        $content = $this->getTemplate('Controller');
+        $content = str_replace(
+            [
+                'DUMMY_NAMESPACE',
+                'DUMMY_CLASS',
+                'DUMMY_USE_SERVICE',
+                'DUMMY_SERVICE',
+            ],
+            [
+                "App\Http\Controllers\\".ucfirst($domain),
+                ucfirst($domain).'Controller',
+                "App\\$root\\$domain\\Services\\".ucfirst($domain).'Service',
+                ucfirst($domain).'Service',
+            ],
+            $content
+        );
+
+        $pathDir = 'Http/Controllers/'.ucfirst($domain);
+
+        if (! file_exists(app_path($pathDir))) {
+            mkdir(app_path($pathDir));
+        }
+
+        $pathFile = app_path($pathDir.'/'.ucfirst($domain).'Controller.php');
+
+        $this->createFileAndWrite($pathFile, $content);
+        $this->info('Controller generated successfully.');
+    }
+
+    private function runInfraStructure($domain): void
+    {
+        $this->warn('Generating infrastructure classes for '.$domain.' domain.');
+        $classEntity = ucfirst($domain.'Entity');
+        Artisan::call('make:migration create_'.lcfirst($domain).'s_table');
+        Artisan::call('make:factory'.' '.$classEntity.'Factory');
+        Artisan::call('make:seeder'.' '.$classEntity.'Seeder');
+        $this->info('Infrastructure classes generated successfully.');
+    }
+
+    private function ensurePackageExists(string $packageName, int $permissions = 0777, bool $recursive = false): void
+    {
+        if (! is_dir(app_path($packageName))) {
+            mkdir(app_path($packageName), $permissions, $recursive);
+        }
     }
 
     private function createFileAndWrite(string $pathFile, string $content): void
@@ -135,12 +182,14 @@ class DomainGenerate extends Command
         file_put_contents($pathFile, $content);
     }
 
-    private function runInfraStructure($domain): void
+    private function getTemplate(string $templateName): string
     {
-        $classEntity = ucfirst($domain.'Entity');
-        Artisan::call('make:migration create_'.lcfirst($domain).'s_table');
-        Artisan::call('make:factory'.' '.$classEntity.'Factory');
-        Artisan::call('make:seeder'.' '.$classEntity.'Seeder');
-        Artisan::call('make:controller'.' '.ucfirst($domain).'/'.ucfirst($domain).'Controller');
+        $templateFiles = glob(base_path("/vendor/**/**/**/Domain/{$templateName}.txt"));
+
+        if (empty($templateFiles)) {
+            dd("Template file {$templateName}.txt not found.");
+        }
+
+        return file_get_contents($templateFiles[0]);
     }
 }
