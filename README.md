@@ -13,7 +13,7 @@ To install the Braip Abstracts package, you need to have Composer installed on y
 Once you have Composer installed, you can add Braip Abstracts to your project by running the following command in your project's root directory:
 
 ```bash
-composer require braip/pkg-abstracts --dev
+composer require codehubmvs/pkg-abstracts --dev
 ```
 ## Usage
 
