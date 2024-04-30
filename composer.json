@@ -1,5 +1,5 @@
 {
-    "name": "marcusslv/pkg-abstracts",
+    "name": "codehubmvs/pkg-abstracts",
     "license": "MIT",
     "description": "Package to abstract classes and create a base service provider for Laravel",
     "keywords": ["abstracts", "laravel", "domain", "service", "provider"],
