@@ -1,24 +1,24 @@
 {
-    "name": "braip/pkg-abstracts",
+    "name": "marcusslv/pkg-abstracts",
     "license": "MIT",
-    "description": "Package to abstract classes",
-    "keywords": ["abstracts", "laravel"],
+    "description": "Package to abstract classes and create a base service provider for Laravel",
+    "keywords": ["abstracts", "laravel", "domain", "service", "provider"],
     "type": "library",
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "Braip\\Abstracts\\": "src/"
+            "Codehubmvs\\Abstracts\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Braip\\Abstracts\\Tests\\": "tests/"
+            "Codehubmvs\\Abstracts\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers":[
-                "Braip\\Abstracts\\AbstractsBaseServiceProvider"
+                "Codehubmvs\\Abstracts\\AbstractsBaseServiceProvider"
             ]
         }
     },

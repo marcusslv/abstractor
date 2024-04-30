@@ -1,6 +1,6 @@
 <?php
 
-namespace Braip\Abstracts\Commands;
+namespace Codehubmvs\Abstracts\Commands;
 
 use Illuminate\Console\Command;
 
@@ -41,7 +41,6 @@ class GenerateAbstracts extends Command
         $this->service($packageName);
         $this->repositoryInterface($packageName);
         $this->repository($packageName);
-        $this->entity($packageName);
         $this->controller();
         $this->baseController();
         $this->info('Abstract classes generated successfully.');
@@ -134,12 +133,6 @@ class GenerateAbstracts extends Command
     {
         $this->createFileFromTemplate('', 'AbstractController', 'Http/Controllers', 'AbstractController');
         $this->info('Base controller generated successfully.');
-    }
-
-    private function entity($root): void
-    {
-        $this->createFileFromTemplate($root, 'AbstractEntity', 'Abstracts', 'AbstractEntity');
-        $this->info('Base entity generated successfully.');
     }
 
     private function baseController(): void

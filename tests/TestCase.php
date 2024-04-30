@@ -1,8 +1,8 @@
 <?php
 
-namespace Braip\Abstracts\Tests;
+namespace Codehubmvs\Abstracts\Tests;
 
-use Braip\Abstracts\AbstractsBaseServiceProvider;
+use Codehubmvs\Abstracts\AbstractsBaseServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {

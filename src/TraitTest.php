@@ -1,6 +1,6 @@
 <?php
 
-namespace Braip\Abstracts;
+namespace Codehubmvs\Abstracts;
 
 trait TraitTest
 {

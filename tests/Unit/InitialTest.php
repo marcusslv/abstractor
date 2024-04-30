@@ -1,9 +1,9 @@
 <?php
 
-namespace Braip\Abstracts\Tests\Unit;
+namespace Codehubmvs\Abstracts\Tests\Unit;
 
-use Braip\Abstracts\Tests\TestCase;
-use Braip\Abstracts\Tests\User;
+use Codehubmvs\Abstracts\Tests\TestCase;
+use Codehubmvs\Abstracts\Tests\User;
 
 class InitialTest extends TestCase
 {

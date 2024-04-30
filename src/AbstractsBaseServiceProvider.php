@@ -1,9 +1,9 @@
 <?php
 
-namespace Braip\Abstracts;
+namespace Codehubmvs\Abstracts;
 
-use Braip\Abstracts\Commands\DomainGenerate;
-use Braip\Abstracts\Commands\GenerateAbstracts;
+use Codehubmvs\Abstracts\Commands\DomainGenerate;
+use Codehubmvs\Abstracts\Commands\GenerateAbstracts;
 use Illuminate\Support\ServiceProvider;
 
 class AbstractsBaseServiceProvider extends ServiceProvider

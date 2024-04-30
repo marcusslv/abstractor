@@ -1,8 +1,8 @@
 <?php
 
-namespace Braip\Abstracts\Tests;
+namespace Codehubmvs\Abstracts\Tests;
 
-use Braip\Abstracts\TraitTest;
+use Codehubmvs\Abstracts\TraitTest;
 use Illuminate\Database\Eloquent\Model;
 
 class User extends Model

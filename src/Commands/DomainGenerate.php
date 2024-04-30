@@ -1,6 +1,6 @@
 <?php
 
-namespace Braip\Abstracts\Commands;
+namespace Codehubmvs\Abstracts\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
@@ -51,13 +51,15 @@ class DomainGenerate extends Command
         $content = str_replace(
             [
                 'DUMMY_NAMESPACE',
-                'DUMMY_ABSTRACT_ENTITY',
                 'DUMMY_CLASS',
+                'DUMMY_USE_MODEL_NAME',
+                'DUMMY_MODEL_NAME',
             ],
             [
                 "App\\$root\\$domain\\Entities",
-                "App\\$root\\Abstracts\AbstractEntity",
                 $class,
+                "App\\Models\\$domain",
+                $domain,
             ],
             $content
         );
@@ -163,10 +165,7 @@ class DomainGenerate extends Command
     private function runInfraStructure($domain): void
     {
         $this->warn('Generating infrastructure classes for '.$domain.' domain.');
-        $classEntity = ucfirst($domain.'Entity');
-        Artisan::call('make:migration create_'.lcfirst($domain).'s_table');
-        Artisan::call('make:factory'.' '.$classEntity.'Factory');
-        Artisan::call('make:seeder'.' '.$classEntity.'Seeder');
+        Artisan::call("make:model $domain -m -f -s");
         $this->info('Infrastructure classes generated successfully.');
     }
 
