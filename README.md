@@ -21,7 +21,7 @@ After installing the package, you can use the `make:abstract` command to generat
 Here is an example of how to use it:
 
 ```bash
-php artisan make:astract
+php artisan make:abstract
 ```
 
 This command will generate the following abstract classes:
