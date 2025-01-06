@@ -8,7 +8,8 @@ use DUMMY_USE_SERVICE;
 
 class DUMMY_CLASS extends AbstractController
 {
-    public function __construct(protected DUMMY_SERVICE $service)
+    public function __construct(DUMMY_SERVICE $service)
     {
+        $this->service = $service;
     }
 }
