@@ -7,7 +7,8 @@ use DUMMY_REPOSITORY;
 
 class DUMMY_CLASS extends AbstractRepository
 {
-    public function __construct(protected DUMMY_CLASS_ENTITY $model)
+    public function __construct(DUMMY_CLASS_ENTITY $model)
     {
+        $this->model = $model;
     }
 }
