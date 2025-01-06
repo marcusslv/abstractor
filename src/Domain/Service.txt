@@ -7,7 +7,8 @@ use DUMMY_SERVICE;
 
 class DUMMY_CLASS extends AbstractService
 {
-    public function __construct(protected DUMMY_CLASS_REPOSITORY $repository)
+    public function __construct(DUMMY_CLASS_REPOSITORY $repository)
     {
+        $this->repository = $repository;
     }
 }
