@@ -1,49 +1,63 @@
-# CodeHubMVS
+# 📦 Pacote de Abstração de Domínio - Laradom
 
-## Project Name: CodeHubMVS Abstracts
+## Visão Geral 🧱📚
 
-CodeHubMVS Abstracts is a PHP library that provides a set of abstract classes to assist in the development of Laravel applications. 
-It includes the commands `make:abstracts` and `make:domain`, which generate domain classes such as Entity, Repository, Service, and Controller. 
-Additionally, it also generates infrastructure classes like migrations, factories, and seeders.
+**Laradom** é uma biblioteca PHP criada para auxiliar o desenvolvimento de aplicações Laravel por meio da geração de classes abstratas reutilizáveis. O pacote oferece os comandos `make:abstracts` e `make:domain`, que automatizam a criação de estruturas essenciais do domínio como **Entity**, **Repository**, **Service** e **Controller**. Também são geradas classes de infraestrutura como **migrations**, **factories** e **seeders**.
 
-## Installation
+## 🧩 Instalação
 
-To install the Braip Abstracts package, you need to have Composer installed on your system. If you don't have Composer installed, you can download it from [here](https://getcomposer.org/).
+Para instalar o pacote **Laradom**, é necessário ter o **Composer** instalado em seu sistema. Caso não possua, você pode baixá-lo em [getcomposer.org](https://getcomposer.org).
 
-Once you have Composer installed, you can add Braip Abstracts to your project by running the following command in your project's root directory:
+Com o Composer instalado, execute o seguinte comando no diretório raiz do seu projeto Laravel:
 
 ```bash
-composer require codehubmvs/pkg-abstracts --dev
+composer require marcusslv/pkg-abstracts --dev
 ```
-## Usage
 
-After installing the package, you can use the `make:abstract` command to generate abstracts classes. 
-Here is an example of how to use it:
+## 🚀 Como Utilizar
+
+Após a instalação do pacote, os seguintes comandos estão disponíveis via Artisan:
+
+### 🔧 Geração de Classes Abstratas
 
 ```bash
 php artisan make:abstract
 ```
 
-This command will generate the following abstract classes:
+Este comando gerará as seguintes classes abstratas:
 
-- `Entity`
-- `Repository`
-- `Service`
-- `Controller`
-- `Interface`
+- Entity
+- Repository
+- Service
+- Controller
+- Interface
+
+### 🏗️ Geração de Classes de Domínio
 
 ```bash
 php artisan make:domain
 ```
 
-This command will generate the following domain classes:
+Este comando gerará as seguintes classes:
 
-- `Entity`
-- `Repository`
-- `Service`
-- `Controller`
-- `Interface`
-- `Migration`
-- `Factory`
-- `Seeder`
+- Entity
+- Repository
+- Service
+- Controller
+- Interface
+- Migration
+- Factory
+- Seeder
+
+## 🎯 Objetivo
+
+Este pacote foi desenvolvido com foco em **padronização de código**, **reuso** e **agilidade** no desenvolvimento de aplicações Laravel com base em uma arquitetura bem definida e orientada a domínio.
+
+## 🤝 Contribuições
+
+Contribuições são bem-vindas! Fique à vontade para abrir issues ou enviar pull requests.
+
+## 📄 Licença
+
+Este projeto está licenciado sob a Licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais informações.
 
