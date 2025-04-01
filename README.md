@@ -1,17 +1,17 @@
-# 📦 Pacote de Abstração de Domínio - Laradom
+# 📦 Pacote de Abstração de Domínio - Abstractor
 
 ## Visão Geral 🧱📚
 
-**Laradom** é uma biblioteca PHP criada para auxiliar o desenvolvimento de aplicações Laravel por meio da geração de classes abstratas reutilizáveis. O pacote oferece os comandos `make:abstracts` e `make:domain`, que automatizam a criação de estruturas essenciais do domínio como **Entity**, **Repository**, **Service** e **Controller**. Também são geradas classes de infraestrutura como **migrations**, **factories** e **seeders**.
+**Abstractor** é uma biblioteca PHP criada para auxiliar o desenvolvimento de aplicações Laravel por meio da geração de classes abstratas reutilizáveis. O pacote oferece os comandos `make:abstracts` e `make:domain`, que automatizam a criação de estruturas essenciais do domínio como **Entity**, **Repository**, **Service** e **Controller**. Também são geradas classes de infraestrutura como **migrations**, **factories** e **seeders**.
 
 ## 🧩 Instalação
 
-Para instalar o pacote **Laradom**, é necessário ter o **Composer** instalado em seu sistema. Caso não possua, você pode baixá-lo em [getcomposer.org](https://getcomposer.org).
+Para instalar o pacote **Abstractor**, é necessário ter o **Composer** instalado em seu sistema. Caso não possua, você pode baixá-lo em [getcomposer.org](https://getcomposer.org).
 
 Com o Composer instalado, execute o seguinte comando no diretório raiz do seu projeto Laravel:
 
 ```bash
-composer require codehubmvs/pkg-abstracts --dev
+composer require marcusslv/pkg-abstracts --dev
 ```
 
 ## 🚀 Como Utilizar
