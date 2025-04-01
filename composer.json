@@ -1,6 +1,6 @@
 {
     "name": "marcusslv/abstractor",
-    "description": "Pacote Laravel para geração de classes base de domínio com foco em arquitetura limpa, reutilização e produtividade."
+    "description": "Pacote Laravel para geração de classes base de domínio com foco em arquitetura limpa, reutilização e produtividade.",
     "license": "MIT",
     "keywords": ["abstracts", "laravel", "domain", "service", "provider"],
     "type": "library",
