@@ -11,7 +11,7 @@ Para instalar o pacote **Laradom**, é necessário ter o **Composer** instalado 
 Com o Composer instalado, execute o seguinte comando no diretório raiz do seu projeto Laravel:
 
 ```bash
-composer require marcusslv/pkg-abstracts --dev
+composer require codehubmvs/pkg-abstracts --dev
 ```
 
 ## 🚀 Como Utilizar
