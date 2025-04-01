@@ -1,7 +1,7 @@
 {
-    "name": "codehubmvs/pkg-abstracts",
+    "name": "marcusslv/abstractor",
+    "description": "Pacote Laravel para geração de classes base de domínio com foco em arquitetura limpa, reutilização e produtividade."
     "license": "MIT",
-    "description": "Package to abstract classes and create a base service provider for Laravel",
     "keywords": ["abstracts", "laravel", "domain", "service", "provider"],
     "type": "library",
     "minimum-stability": "dev",
