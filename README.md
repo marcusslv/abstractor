@@ -11,7 +11,7 @@ Para instalar o pacote **Abstractor**, é necessário ter o **Composer** instala
 Com o Composer instalado, execute o seguinte comando no diretório raiz do seu projeto Laravel:
 
 ```bash
-composer require marcusslv/pkg-abstracts --dev
+composer require marcusslv/abstractor --dev
 ```
 
 ## 🚀 Como Utilizar
