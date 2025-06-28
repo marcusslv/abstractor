@@ -6,4 +6,5 @@ use DUMMY_USE_MODEL_NAME;
 
 class DUMMY_CLASS extends DUMMY_MODEL_NAME
 {
+    protected $table = "DUMMY_TABLE_NAME";
 }

@@ -26,6 +26,7 @@ class DomainGenerate extends Command
         $root = $this->ask('Info the root package name?');
 
         $domain = $this->ask('Info the domain name?');
+        $tableName = $this->ask('Info the table name?');
 
         $this->warn("** Generating domain classes for {$domain} domain **");
 
@@ -35,7 +36,7 @@ class DomainGenerate extends Command
         $this->ensurePackageExists($root.'/'.ucfirst($domain).'/Repositories');
         $this->ensurePackageExists($root.'/'.ucfirst($domain).'/Services');
         $this->ensurePackageExists($root.'/'.ucfirst($domain).'/ValueObjects');
-        $this->entity($domain, $root);
+        $this->entity($domain, $root, $tableName);
         $this->repository($domain, $root);
         $this->service($domain, $root);
         $this->controller($domain, $root);
@@ -43,7 +44,7 @@ class DomainGenerate extends Command
         $this->info('** Domain classes generated successfully. **');
     }
 
-    private function entity($domain, $root): void
+    private function entity($domain, $root, $tableName): void
     {
         $this->warn('Generating entity for '.$domain.' domain.');
         $class = ucfirst($domain.'Entity');
@@ -54,12 +55,14 @@ class DomainGenerate extends Command
                 'DUMMY_CLASS',
                 'DUMMY_USE_MODEL_NAME',
                 'DUMMY_MODEL_NAME',
+                'DUMMY_TABLE_NAME',
             ],
             [
                 "App\\$root\\$domain\\Entities",
                 $class,
                 "App\\Models\\$domain",
                 $domain,
+                $tableName,
             ],
             $content
         );

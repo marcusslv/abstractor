@@ -28,7 +28,7 @@ abstract class AbstractRepository implements RepositoryInterface
 	 */
 	public function all($params = null, $with = [])
 	{
-		return $this->getModel()->with($with)->query($params)->paginate(20)->withQueryString();
+		return $this->getModel()->query($params)->with($with)->paginate(20)->withQueryString();
 	}
 
 	/**
@@ -41,7 +41,7 @@ abstract class AbstractRepository implements RepositoryInterface
 	 */
 	public function allWithOutPaginate($params = null, $with = [])
 	{
-		return $this->getModel()->with($with)->query($params)->get();
+		return $this->getModel()->query($params)->with($with)->get();
 	}
 
 	/**
