@@ -1,0 +1,8 @@
+<?php
+
+namespace DUMMY_NAMESPACE;
+
+interface EnumInterface
+{
+
+}

@@ -41,6 +41,7 @@ class GenerateAbstracts extends Command
         $this->service($packageName);
         $this->repositoryInterface($packageName);
         $this->repository($packageName);
+        $this->enum($packageName);
         $this->controller();
         $this->baseController();
         $this->info('Abstract classes generated successfully.');
@@ -139,5 +140,13 @@ class GenerateAbstracts extends Command
     {
         $this->createFileFromTemplate('', 'Controller', 'Http/Controllers', 'Controller');
         $this->info('Base controller generated successfully.');
+    }
+
+    private function enum($root): void
+    {
+        $this->createFileFromTemplate($root, 'EnumInterface', 'Abstracts', 'EnumInterface');
+        $this->info('Base enum interface generated successfully.');
+        $this->createFileFromTemplate($root, 'EnumTrait', 'Abstracts', 'EnumTrait');
+        $this->info('Base enum trait generated successfully.');
     }
 }
