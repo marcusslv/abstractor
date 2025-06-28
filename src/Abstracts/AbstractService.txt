@@ -2,6 +2,7 @@
 
 namespace DUMMY_NAMESPACE;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -12,14 +13,18 @@ abstract class AbstractService implements ServiceInterface
 	protected $with = [];
     protected $repository;
 
-	/**
-	 * @param array $params
-	 * @return mixed
-	 */
-	public function getAll(array $params = [])
+	public function getAll(array $params = [], array $options = [])
 	{
-		return $this->repository->all($params, $this->with);
+		return $this->getRepository()->all($params, $this->with, $options);
 	}
+
+	public function getAllWithoutPagination(
+        array $params = [],
+        array $with = [],
+        array $options = [],
+    ): Collection {
+    	return $this->getRepository()->allWithOutPaginate($params, $with, $options);
+    }
 
 	/**
 	 * @param $id

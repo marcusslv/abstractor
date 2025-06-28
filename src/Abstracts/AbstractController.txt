@@ -20,11 +20,38 @@ abstract class AbstractController extends Controller
 	 */
 	public function index(Request $request)
 	{
-		$items = $this
-			->service
-			->getAll($request->all(), $this->with)
-			->toArray();
-		return $this->ok($items);
+		if (isset($request->with)) {
+            $this->with = $request->with;
+        }
+
+        $withoutPagination = filter_var(
+            $request->get('without_pagination', false),
+            FILTER_VALIDATE_BOOLEAN
+        );
+        $orderByColumn = $request->get('order_by_column', 'id');
+        $orderByDirection = $request->get('order_by_direction', 'asc');
+
+        if ($withoutPagination) {
+            $items = $this->service->getAllWithoutPagination($request->all(), $this->with, [
+                'order_by' => [
+                    'column' => $orderByColumn,
+                    'direction' => $orderByDirection
+                ]
+            ]);
+
+            return $this->ok($items->toArray());
+        }
+
+        $items = $this
+            ->service
+            ->getAll($request->all(), [
+                'order_by' => [
+                    'column' => $orderByColumn,
+                    'direction' => $orderByDirection
+                ]
+            ]);
+
+        return $this->ok($items->toArray());
 	}
 
 	/**

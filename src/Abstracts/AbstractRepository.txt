@@ -2,6 +2,7 @@
 
 namespace DUMMY_NAMESPACE;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use DUMMY_NAMESPACE\RepositoryInterface;
@@ -21,27 +22,49 @@ abstract class AbstractRepository implements RepositoryInterface
 		return $this->model;
 	}
 
-	/**
-	 * @param $params
-	 * @param null $with
-	 * @return mixed
-	 */
-	public function all($params = null, $with = [])
+	public function all(
+        array $params = [],
+        array $with = [],
+        array $options = [],
+    )
 	{
-		return $this->getModel()->query($params)->with($with)->paginate(20)->withQueryString();
+        $model = $this->getModel();
+        $orderByColumn = data_get($options, 'order_by.column', 'id');
+        $orderByDirection = data_get($options, 'order_by.direction', 'asc') ;
+        $params = array_filter(
+            $params,
+            fn ($key) => in_array($key, $model->getFillable()),
+            ARRAY_FILTER_USE_KEY
+        );
+
+		return $model->with($with)
+            ->where($params)
+            ->orderBy($$orderByColumn, $orderByDirection)
+            ->paginate(20)
+            ->withQueryString();
 	}
 
-	/**
-	 * Method allWithOutPaginate
-	 *
-	 * @param $params $params [explicite description]
-	 * @param $with $with [explicite description]
-	 *
-	 * @return void
-	 */
-	public function allWithOutPaginate($params = null, $with = [])
+
+	public function allWithOutPaginate(
+        $params = [],
+        array $with = [],
+        array $options = []
+    ): Collection
 	{
-		return $this->getModel()->query($params)->with($with)->get();
+        $model = $this->getModel();
+        $orderByColumn = data_get($options, 'order_by.column', 'id');
+        $orderByDirection = data_get($options, 'order_by.direction', 'asc') ;
+
+        $params = array_filter(
+            $params,
+            fn ($key) => in_array($key, $model->getFillable()),
+            ARRAY_FILTER_USE_KEY
+        );
+
+		return $model->with($with)
+            ->where($params)
+            ->orderBy($orderByColumn, $orderByDirection)
+            ->get();
 	}
 
 	/**
