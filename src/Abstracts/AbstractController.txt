@@ -30,13 +30,16 @@ abstract class AbstractController extends Controller
         );
         $orderByColumn = $request->get('order_by_column', 'id');
         $orderByDirection = $request->get('order_by_direction', 'asc');
+		$columns = $request->get('columns', '*');
+		$perPage = $request->get('per_page', 20);
 
         if ($withoutPagination) {
             $items = $this->service->getAllWithoutPagination($request->all(), $this->with, [
                 'order_by' => [
                     'column' => $orderByColumn,
                     'direction' => $orderByDirection
-                ]
+                ],
+				'columns' => $columns
             ]);
 
             return $this->ok($items->toArray());
@@ -48,7 +51,9 @@ abstract class AbstractController extends Controller
                 'order_by' => [
                     'column' => $orderByColumn,
                     'direction' => $orderByDirection
-                ]
+                ],
+				'columns' => $columns,
+				'per_page' => $perPage
             ]);
 
         return $this->ok($items->toArray());

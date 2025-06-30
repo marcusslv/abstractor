@@ -30,7 +30,11 @@ abstract class AbstractRepository implements RepositoryInterface
 	{
         $model = $this->getModel();
         $orderByColumn = data_get($options, 'order_by.column', 'id');
-        $orderByDirection = data_get($options, 'order_by.direction', 'asc') ;
+        $orderByDirection = data_get($options, 'order_by.direction', 'asc');
+		$perPage = data_get($options, 'per_page', 20);
+        $columns = data_get($options, 'columns', '*');
+        $columns = is_array($columns) ? $columns : explode(',', $columns);
+
         $params = array_filter(
             $params,
             fn ($key) => in_array($key, $model->getFillable()),
@@ -40,7 +44,7 @@ abstract class AbstractRepository implements RepositoryInterface
 		return $model->with($with)
             ->where($params)
             ->orderBy($$orderByColumn, $orderByDirection)
-            ->paginate(20)
+            ->paginate($perPage, $columns)
             ->withQueryString();
 	}
 
@@ -53,7 +57,9 @@ abstract class AbstractRepository implements RepositoryInterface
 	{
         $model = $this->getModel();
         $orderByColumn = data_get($options, 'order_by.column', 'id');
-        $orderByDirection = data_get($options, 'order_by.direction', 'asc') ;
+        $orderByDirection = data_get($options, 'order_by.direction', 'asc');
+		$columns = data_get($options, 'columns', '*');
+        $columns = is_array($columns) ? $columns : explode(',', $columns);
 
         $params = array_filter(
             $params,
@@ -64,7 +70,7 @@ abstract class AbstractRepository implements RepositoryInterface
 		return $model->with($with)
             ->where($params)
             ->orderBy($orderByColumn, $orderByDirection)
-            ->get();
+            ->get($columns);
 	}
 
 	/**
